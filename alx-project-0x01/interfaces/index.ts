@@ -1,9 +1,4 @@
-export interface PostProps {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+// interfaces/index.ts
 
 export interface PostProps {
   userId: number;
@@ -24,8 +19,8 @@ export interface PostModalProps {
   onSubmit: (post: PostData) => void;
 }
 
-export interface UserProps {
-  id: number;
+export interface UserData {
+  id?: number; // optional for new user
   name: string;
   username: string;
   email: string;
@@ -46,4 +41,9 @@ export interface UserProps {
     catchPhrase: string;
     bs: string;
   };
+}
+
+export interface UserModalProps {
+  onClose: () => void;
+  onSubmit: (user: UserData) => void;
 }
