@@ -4,13 +4,17 @@ import Header from "@/components/layout/Header";
 import { PostData, PostProps } from "@/interfaces";
 import { useState } from "react";
 
-// Accepts an object with a `posts` array prop
-const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
+interface PostsPageProps {
+  posts: PostProps[];
+}
+
+const Posts: React.FC<PostsPageProps> = ({ posts }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [newPost, setNewPost] = useState<PostData | null>(null);
+  const [newPost, setNewPost] = useState<PostData | null>(null); // ✅ Renamed to avoid conflict
 
   const handleAddPost = (newPostData: PostData) => {
-    setNewPost({ ...newPostData, id: posts.length + 1 });
+    setNewPost({ ...newPostData, id: posts.length + 1 }); // ✅ Add a fake ID
+    setModalOpen(false);
   };
 
   return (
@@ -26,9 +30,8 @@ const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
             Add Post
           </button>
         </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          {posts?.map(({ title, body, userId, id }: PostProps, key: number) => (
+        <div className="grid grid-cols-3 gap-2 mt-4">
+          {posts.map(({ title, body, userId, id }: PostProps, key: number) => (
             <PostCard title={title} body={body} userId={userId} id={id} key={key} />
           ))}
 
@@ -38,7 +41,6 @@ const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
               body={newPost.body}
               userId={newPost.userId}
               id={newPost.id}
-              key={newPost.id}
             />
           )}
         </div>
@@ -51,7 +53,6 @@ const Posts: React.FC<{ posts: PostProps[] }> = ({ posts }) => {
   );
 };
 
-// Static generation
 export async function getStaticProps() {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
   const posts = await response.json();
