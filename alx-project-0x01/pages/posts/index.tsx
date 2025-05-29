@@ -10,11 +10,10 @@ interface PostsPageProps {
 
 const Posts: React.FC<PostsPageProps> = ({ posts }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [newPost, setNewPost] = useState<PostData | null>(null); // ✅ Renamed to avoid conflict
+  const [post, setPost] = useState<PostData | null>(null);
 
-  const handleAddPost = (newPostData: PostData) => {
-    setNewPost({ ...newPostData, id: posts.length + 1 }); // ✅ Add a fake ID
-    setModalOpen(false);
+  const handleAddPost = (newPost: PostData) => {
+    setPost({ ...newPost, id: posts.length + 1 });
   };
 
   return (
@@ -30,17 +29,18 @@ const Posts: React.FC<PostsPageProps> = ({ posts }) => {
             Add Post
           </button>
         </div>
+
         <div className="grid grid-cols-3 gap-2 mt-4">
           {posts.map(({ title, body, userId, id }: PostProps, key: number) => (
             <PostCard title={title} body={body} userId={userId} id={id} key={key} />
           ))}
 
-          {newPost && (
+          {post && (
             <PostCard
-              title={newPost.title}
-              body={newPost.body}
-              userId={newPost.userId}
-              id={newPost.id}
+              title={post.title}
+              body={post.body}
+              userId={post.userId}
+              id={post.id!}
             />
           )}
         </div>
@@ -52,6 +52,7 @@ const Posts: React.FC<PostsPageProps> = ({ posts }) => {
     </div>
   );
 };
+
 
 export async function getStaticProps() {
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
