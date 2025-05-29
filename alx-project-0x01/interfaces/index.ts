@@ -42,7 +42,7 @@ export interface UserProps {
 }
 
 export interface UserData {
-  id?: number; // Optional for newly created users
+  id?: number;
   name: string;
   username: string;
   email: string;
@@ -67,5 +67,5 @@ export interface UserData {
 
 export interface UserModalProps {
   onClose: () => void;
-  onSubmit: (post: UserProps) => void; // ✅ This is what your test is checking
+  onSubmit: (post: UserProps) => void; 
 }
